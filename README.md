@@ -1,3 +1,7 @@
+# Description
+
+This is a api to manage personal blog. Using Laravel, Redis and Oauth be authenticator
+
 # Requirement Install Project
 
 -   Laravel ^11.0.0
@@ -54,11 +58,9 @@ php artisan migrate --seed
 
 ### Generate personal access token client
 
-
 ```
 php artisan passport:client --personal
 ```
-
 
 ## Launch Apps
 
