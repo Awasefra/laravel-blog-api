@@ -15,7 +15,11 @@ Route::get("health", function () {
 Route::middleware(["forceJson"])->group(function () {
 
 
-    Route::controller(AuthController::class)->prefix("auth")->group(function () {
+    Route::prefix("auth")->controller(AuthController::class)->group(function () {
         Route::post("login", "login");
+
+        Route::middleware(["api", "auth:api"])->group(function () {
+            Route::get("me", "me");
+        });
     });
 });

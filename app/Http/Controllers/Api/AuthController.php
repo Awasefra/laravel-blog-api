@@ -38,5 +38,8 @@ class AuthController extends Controller
         }
     }
 
-    
+    public function me()
+    {
+        return $this->successResponse(new UserResource(auth()->user()));
+    }
 }
