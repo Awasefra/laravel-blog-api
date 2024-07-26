@@ -46,6 +46,20 @@ php artisan key:generate
 composer install
 ```
 
+## Migrate & Seed
+
+```
+php artisan migrate --seed
+```
+
+### Generate personal access token client
+
+
+```
+php artisan passport:client --personal
+```
+
+
 ## Launch Apps
 
 ```
