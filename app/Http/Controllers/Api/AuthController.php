@@ -17,7 +17,7 @@ class AuthController extends Controller
         try {
             // Search user that only has pasien_id
             if (!Auth::attempt($request->all())) {
-                throw new \Exception("Kredensial tidak valid", 401);
+                throw new \Exception("Login failed. Please check your email and password.", 401);
             }
 
             // Generate token
