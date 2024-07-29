@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\TokenRepository;
 use App\Http\Resources\Auth\UserResource;
 
 class AuthController extends Controller
@@ -40,5 +41,21 @@ class AuthController extends Controller
     public function me()
     {
         return $this->successResponse(new UserResource(auth()->user()));
+    }
+
+    public function logout()
+    {
+        $user = auth()->user();
+
+        // Get logged in user token
+        $token = $user->token();
+
+        // Revoke the token
+        // Use token repository from passport
+        $tokenRepository = app(TokenRepository::class);
+
+        $tokenRepository->revokeAccessToken($token->id);
+
+        return $this->successResponse(true, "Sucessfully logged out");
     }
 }

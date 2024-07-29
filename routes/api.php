@@ -20,6 +20,7 @@ Route::middleware(["forceJson"])->group(function () {
 
         Route::middleware(["api", "auth:api"])->group(function () {
             Route::get("me", "me");
+            Route::post("logout", "logout");
         });
     });
 });
