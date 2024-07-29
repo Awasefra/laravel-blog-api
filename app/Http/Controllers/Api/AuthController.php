@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ChangePasswordRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\TokenRepository;
 use App\Http\Resources\Auth\UserResource;
 
@@ -57,5 +59,29 @@ class AuthController extends Controller
         $tokenRepository->revokeAccessToken($token->id);
 
         return $this->successResponse(true, "Sucessfully logged out");
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        try {
+            
+            // Get authenticated user
+            $user = auth()->user();
+
+            // Check if the old Password from request is correct
+            if (!Hash::check($request->oldPassword, $user->password)) {
+                throw new \Exception("Incorrect old password", 403);
+            }
+
+            // Update new password
+            // Hash the new password before insert to DB
+            $hashedPassword = Hash::make($request->newPassword);
+
+            $user->update(["password" => $hashedPassword]);
+
+            return $this->successResponse(null, "Sucessfully change the password.");
+        } catch (\Exception $e) {
+            return $this->errorResponse(null, $e->getMessage(), $e->getCode());
+        }
     }
 }
