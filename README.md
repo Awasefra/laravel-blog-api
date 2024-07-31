@@ -30,6 +30,14 @@ This is a api to manage personal blog. Using Laravel, Redis and Oauth be authent
 git clone https://github.com/Awasefra/laravel-blog-api-with-redis.git
 ```
 
+
+## Install resourse laravel
+
+```
+composer install
+```
+
+
 ## Create & update env File
 
 ```
@@ -42,12 +50,6 @@ cp .env.example .env
 
 ```
 php artisan key:generate
-```
-
-## Install resourse laravel
-
-```
-composer install
 ```
 
 ## Migrate & Seed
