@@ -23,7 +23,6 @@ class AuthController extends Controller
                 throw new \Exception("Login failed. Please check your email and password.", 401);
             }
 
-            // Generate token
             // Create token for the user
             $tokenObj = Auth::user()->createToken($request->email);
 
