@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Services\PostService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -47,7 +48,15 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $datas = $this->postService->get($id);
+            return $this->successResponse($datas, 'Successfully to Get data', 200);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorResponse(null, "Data Not found", 404);
+        } catch (\Exception $e) {
+
+            return $this->errorResponse(null, "'Failed to Get data : {$e->getMessage()}", 500);
+        }
     }
 
     /**
