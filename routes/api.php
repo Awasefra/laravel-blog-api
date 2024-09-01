@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PostController;
 
 Route::get("health", function () {
     return response()->json([
@@ -23,5 +24,14 @@ Route::middleware(["forceJson"])->group(function () {
             Route::post("change-password", "changePassword");
             Route::post("logout", "logout");
         });
+    });
+
+    Route::prefix('posts')->controller(PostController::class)->group(function () {
+        Route::get('/', 'index');
+
+        Route::apiResource('/', PostController::class)
+            ->middleware('auth:api')
+            ->parameters(['' => 'id'])
+            ->except(['index']);
     });
 });
