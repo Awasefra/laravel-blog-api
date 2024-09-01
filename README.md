@@ -58,10 +58,16 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
-### Generate personal access token client
+## Generate personal access token client
 
 ```
 php artisan passport:client --personal
+```
+
+## Link Storage
+
+```
+php artisan storage:link
 ```
 
 ## Launch Apps
