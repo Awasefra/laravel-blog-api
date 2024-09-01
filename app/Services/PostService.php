@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Traits\FileUpload;
 use App\Traits\RedisTrait;
@@ -32,7 +33,7 @@ class PostService
                 ];
 
             // Buat post baru di database
-            $post = Post::create($dataPost);
+            $post = $this->post->create($dataPost);
 
             // Cache post baru dan update cache untuk semua post
             $this->cacheData('post', $post);
@@ -43,7 +44,7 @@ class PostService
     // Mengambil semua post dari database dan menyimpannya di cache
     private function fetchDatasFromDatabase()
     {
-        $posts = Post::get();
+        $posts = $this->post->get();
         $this->setDatasInCache('all_posts', $posts);
         return $posts;
     }
