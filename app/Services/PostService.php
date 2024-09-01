@@ -74,4 +74,16 @@ class PostService
         // Simpan kembali ke cache dan set TTL
         $this->setDatasInCache('all_posts', $allPostsArray);
     }
+
+    public function get($id = null)
+    {
+        // Cek apakah parameter 'id' ada dan tidak null dalam request
+        if ($id != null) {
+            // Jika 'id' ada, ambil detail 
+            return new PostResource($this->post->findOrFail($id));
+        } else {
+            // Jika 'id' tidak ada, ambil semua data
+            return PostResource::collection($this->post->get());
+        }
+    }
 }

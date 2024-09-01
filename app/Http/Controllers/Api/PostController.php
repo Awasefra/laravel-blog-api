@@ -19,7 +19,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $datas = $this->postService->get();
+            return $this->successResponse($datas, 'Successfully to Get data', 200);
+        } catch (\Exception $e) {
+
+            return $this->errorResponse(null, "'Failed to Get data : {$e->getMessage()}", 500);
+        }
     }
 
     /**
