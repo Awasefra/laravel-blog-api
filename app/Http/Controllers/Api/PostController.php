@@ -62,9 +62,17 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PostRequest $request, string $id)
     {
-        //
+        try {
+            $data = $this->postService->update($request, $id);
+            return $this->successResponse($data, 'Successfully to update data', 200);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorResponse(null, "Data Not found", 404);
+        } catch (\Exception $e) {
+
+            return $this->errorResponse(null, "'Failed to update data : {$e->getMessage()}", 500);
+        }
     }
 
     /**
