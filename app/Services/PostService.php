@@ -82,6 +82,26 @@ class PostService
         return $data;
     }
 
+    public function delete($id)
+    {
+        DB::transaction(function () use ($id) {
+            // Cari post di database
+            $post = $this->post->findOrFail($id);
+
+            $deleteStatus = $this->deleteImageByUrl($post->url);
+
+            $post->delete();
+
+            if (!$deleteStatus) {
+                DB::rollBack();
+                throw new \Exception('file tidak ada');
+            }
+            // Hapus post dari cache Redis dan update cache untuk semua post
+            $this->removeFromCache('name', $id);
+            $this->updateAllDatasCache(null, $id);
+        });
+    }
+
     // Mengambil semua post dari database dan menyimpannya di cache
     private function fetchDatasFromDatabase()
     {

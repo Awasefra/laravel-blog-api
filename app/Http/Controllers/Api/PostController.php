@@ -80,6 +80,14 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $this->postService->delete($id);
+            return $this->successResponse(null, 'Successfully to delete data', 200);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorResponse(null, "Data Not found", 404);
+        } catch (\Exception $e) {
+
+            return $this->errorResponse(null, "'Failed to delete data : {$e->getMessage()}", 500);
+        }
     }
 }
